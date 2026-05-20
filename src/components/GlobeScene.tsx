@@ -1,5 +1,5 @@
 import { Canvas } from '@react-three/fiber'
-import { Environment, Stars } from '@react-three/drei'
+import { Environment } from '@react-three/drei'
 import { Earth } from './Earth'
 import { Suspense, useEffect, useState } from 'react'
 
@@ -33,10 +33,8 @@ export function GlobeScene({ target }: GlobeSceneProps) {
   }, [])
 
   return (
-    <div className="w-full absolute left-0 right-0 bg-slate-950 z-0 overflow-hidden" style={{ top: 'calc(3.5rem + 20px)', bottom: 0 }}>
+    <div className="w-full h-full relative overflow-hidden bg-transparent">
       <Canvas camera={{ position: [0, 0, cameraZ], fov: 45 }}>
-        <color attach="background" args={['#020617']} />
-        
         {/* Cinematic lighting setup */}
         <ambientLight intensity={0.1} />
         <directionalLight 
@@ -49,9 +47,6 @@ export function GlobeScene({ target }: GlobeSceneProps) {
           intensity={0.5} 
           color="#4f46e5" 
         />
-        
-        {/* Background stars */}
-        <Stars radius={100} depth={50} count={5000} factor={4} saturation={0} fade speed={1} />
         
         {/* Main interactive earth */}
         <Suspense fallback={null}>
