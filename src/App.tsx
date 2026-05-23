@@ -1,6 +1,7 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import { GlobeScene } from './components/GlobeScene'
+import { MonitoringSection } from './components/MonitoringSection'
 
 interface StatItem {
   value: string
@@ -72,6 +73,7 @@ const STATS_DATA: Record<'usa' | 'india', CountryStats> = {
 }
 
 function App() {
+  const scrollContainerRef = useRef<HTMLDivElement>(null)
   const [target, setTarget] = useState<'usa' | 'india'>('usa')
   const [animate, setAnimate] = useState(true)
 
@@ -90,7 +92,10 @@ function App() {
   const textGlow = isUsa ? 'drop-shadow-[0_0_10px_rgba(255,255,255,0.2)]' : 'drop-shadow-[0_0_10px_rgba(52,211,153,0.2)]'
 
   return (
-    <div className="relative min-h-screen font-sans text-slate-100 bg-[#062D77] overflow-y-auto overflow-x-hidden selection:bg-[#0055D2]/30 selection:text-white">
+    <div 
+      ref={scrollContainerRef} 
+      className="relative h-screen w-full font-sans text-slate-100 bg-[#062D77] overflow-y-auto overflow-x-hidden selection:bg-[#0055D2]/30 selection:text-white scroll-smooth"
+    >
       
       {/* Main Container */}
       <div className="relative z-10 flex flex-col min-h-screen justify-between max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
@@ -98,7 +103,7 @@ function App() {
         {/* Centered App Header & Toggle */}
         <header className="flex flex-col items-center justify-center text-center pb-6 mb-8 gap-4">
           <h1 className="text-4xl font-extrabold text-white tracking-tight select-none">
-            Real Worl Impact
+            Real World Impact
           </h1>
           
           <div className="flex justify-center w-full mt-2">
@@ -195,6 +200,9 @@ function App() {
         <div className="pb-8" />
         
       </div>
+
+      {/* Dynamic Monitoring Transition Section */}
+      <MonitoringSection scrollContainerRef={scrollContainerRef} />
     </div>
   )
 }
