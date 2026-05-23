@@ -1,7 +1,15 @@
+"use client";
+
 import { useState, useEffect, useRef } from 'react'
 import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs'
-import { GlobeScene } from './components/GlobeScene'
-import { MonitoringSection } from './components/MonitoringSection'
+import dynamic from 'next/dynamic'
+import { MonitoringSection } from '@/components/MonitoringSection'
+
+// Disable SSR for the 3D globe because it relies on the browser's WebGL context
+const GlobeScene = dynamic(
+  () => import('@/components/GlobeScene').then((mod) => mod.GlobeScene),
+  { ssr: false }
+)
 
 interface StatItem {
   value: string
@@ -72,7 +80,7 @@ const STATS_DATA: Record<'usa' | 'india', CountryStats> = {
   }
 }
 
-function App() {
+export default function Home() {
   const scrollContainerRef = useRef<HTMLDivElement>(null)
   const [target, setTarget] = useState<'usa' | 'india'>('usa')
   const [animate, setAnimate] = useState(true)
@@ -206,5 +214,3 @@ function App() {
     </div>
   )
 }
-
-export default App
